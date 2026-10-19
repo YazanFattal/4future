@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "4FUTURE — Roll Your Destiny",
+  "short_name": "4FUTURE",
+  "description": "Roll a dice. Explore a future. Choose your path.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

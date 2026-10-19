@@ -1,0 +1,45 @@
+name: Check and optionally deploy 4FUTURE
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      publish_pages:
+        description: Publish to GitHub Pages (configure repository Pages first)
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run test:pwa
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name == 'workflow_dispatch' && inputs.publish_pages
+        with:
+          path: dist
+  deploy:
+    if: github.event_name == 'workflow_dispatch' && inputs.publish_pages
+    needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/configure-pages@v5
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
